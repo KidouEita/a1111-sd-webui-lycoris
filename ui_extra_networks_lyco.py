@@ -63,14 +63,14 @@ class ExtraNetworksPageLyCORIS(ui_extra_networks.ExtraNetworksPage):
         if shared.opts.lyco_show_all or not enable_filter:
             pass
         elif sd_version == network.SdVersion.Unknown:
-            model_version = network.SdVersion.SDXL if shared.sd_model.is_sdxl else network.SdVersion.SD2 if shared.sd_model.is_sd2 else network.SdVersion.SD1
+            model_version = network.SdVersion.SDXL if getattr(shared.sd_model, 'is_sdxl', False) else network.SdVersion.SD2 if getattr(shared.sd_model, 'is_sd2', False) else network.SdVersion.SD1
             if model_version.name in shared.opts.lyco_hide_unknown_for_versions:
                 return None
-        elif shared.sd_model.is_sdxl and sd_version != network.SdVersion.SDXL:
+        elif getattr(shared.sd_model, 'is_sdxl', False) and sd_version != network.SdVersion.SDXL:
             return None
-        elif shared.sd_model.is_sd2 and sd_version != network.SdVersion.SD2:
+        elif getattr(shared.sd_model, 'is_sd2', False) and sd_version != network.SdVersion.SD2:
             return None
-        elif shared.sd_model.is_sd1 and sd_version != network.SdVersion.SD1:
+        elif getattr(shared.sd_model, 'is_sd1', False) and sd_version != network.SdVersion.SD1:
             return None
 
         return item
